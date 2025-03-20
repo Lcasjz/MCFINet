@@ -1,0 +1,96 @@
+# general settings
+name: MCFINet_x2
+model_type: SRModel
+scale: 2
+num_gpu: 1
+manual_seed: 0
+
+datasets:
+  test_1:
+    name: val_ship
+    type: PairedImageDataset
+    dataroot_gt: G:\data\ship2\HR
+    dataroot_lq: G:\data\ship2\LR\X2
+    filename_tmpl : "{}x2"
+    io_backend:
+      type: disk
+
+#datasets:
+#  test_1:
+#    name: val_set5
+#    type: PairedImageDataset
+#    dataroot_gt: G:\data\Set5\X2\GT_x2
+#    dataroot_lq: G:\data\Set5\X2\LR_x2
+#    filename_tmpl : "{}x2"
+#    io_backend:
+#      type: disk
+#
+#  test_2:
+#    name: val_set14
+#    type: PairedImageDataset
+#    dataroot_gt: G:\data\Set14\HR
+#    dataroot_lq: G:\data\Set14\LR\X2
+#    filename_tmpl : "{}x2"
+#    io_backend:
+#      type: disk
+#
+#  test_3:
+#    name: val_B100
+#    type: PairedImageDataset
+#    dataroot_gt: G:\data\BSD100\image_SRF_2\HR
+#    dataroot_lq: G:\data\BSD100\image_SRF_2\LR
+#    filename_tmpl : "{}x2"
+#    io_backend:
+#      type: disk
+#
+#  test_4:
+#    name: val_Urban100
+#    type: PairedImageDataset
+#    dataroot_gt: G:\data\Urban100\image_SRF_2\HR
+#    dataroot_lq: G:\data\Urban100\image_SRF_2\LR
+#    filename_tmpl : "{}x2"
+#    io_backend:
+#      type: disk
+#
+#  test_5:
+#    name: val_Manga109
+#    type: PairedImageDataset
+#    dataroot_gt: G:\data\manga109\HR_1
+#    dataroot_lq: G:\data\manga109\LR_1\X2
+#    filename_tmpl : "{}x2"
+#    io_backend:
+#      type: disk
+
+
+# network structures
+network_g:
+  type: MCFINet
+  dim: 36
+  n_blocks: 8
+  ffn_scale: 2
+  upscaling_factor: 2
+
+
+
+# path# path
+path:
+  pretrain_network_g: E:\MCFINet-main\MCFINet-main\experiments\MCFINet_train_DIV2K_100w_x2SR\models\net_g_1000000.pth
+  strict_load_g: true
+  param_key: ~
+# validation settings
+
+val:
+  save_img: false
+  flip_seq: true
+  center_frame_only: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 2
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 2
+      test_y_channel: true
