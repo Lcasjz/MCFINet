@@ -1,1 +1,1 @@
-Recommend to put datasets or the soft links of datasets in this folder.
+If you want to use ship50, please extract 1-10.rar.
